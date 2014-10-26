@@ -4,8 +4,6 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestSetup(t *testing.T) {
@@ -19,7 +17,9 @@ func TestSetup(t *testing.T) {
 	defer os.RemoveAll(dir)
 	c := NewClient(dir)
 	must(c.Setup())
-	assert.True(t, c.IsSetup())
+	if !c.IsSetup() {
+		t.Fail()
+	}
 }
 
 func must(err error) {
