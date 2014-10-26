@@ -31,42 +31,45 @@ func (c *Client) Setup() error {
 	if err != nil {
 		return err
 	}
-	archive := tar.NewReader(uncompressed)
+	return extractArchive(tar.NewReader(uncompressed), c.RootPath)
+}
+
+func extractArchive(archive *tar.Reader, rootPath string) error {
 	for {
 		hdr, err := archive.Next()
 		if err == io.EOF {
-			break
+			return nil
 		}
 		if err != nil {
 			return err
 		}
-		path := filepath.Join(c.RootPath, hdr.Name)
+		path := filepath.Join(rootPath, hdr.Name)
 		switch {
 		case hdr.FileInfo().IsDir():
-			err = os.Mkdir(path, 0777)
-			if err != nil {
+			if err := os.Mkdir(path, hdr.FileInfo().Mode()); err != nil {
 				return err
 			}
 		case hdr.Linkname != "":
-			err = os.Symlink(hdr.Linkname, path)
-			if err != nil {
+			if err := os.Symlink(hdr.Linkname, path); err != nil {
 				return err
 			}
 		default:
-			file, err := os.Create(path)
-			if err != nil {
+			if err := extractFile(archive, hdr, path); err != nil {
 				return err
 			}
-			defer file.Close()
-			_, err = io.Copy(file, archive)
-			if err != nil {
-				return err
-			}
-		}
-		err = os.Chmod(path, hdr.FileInfo().Mode())
-		if err != nil {
-			return err
 		}
 	}
-	return nil
+}
+
+func extractFile(archive *tar.Reader, hdr *tar.Header, path string) error {
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = io.Copy(file, archive)
+	if err != nil {
+		return err
+	}
+	return os.Chmod(path, hdr.FileInfo().Mode())
 }
