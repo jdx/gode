@@ -23,14 +23,13 @@ type Client struct {
 // NewClient creates a new Client at the specified rootPath
 // The Node installation can then be setup here with client.Setup()
 func NewClient(rootPath string) *Client {
-	version := DefaultNodeVersion
 	return &Client{
 		RootPath:    rootPath,
-		NodePath:    filepath.Join(rootPath, nodeBase(version), "bin", "node"),
-		NpmPath:     filepath.Join(rootPath, nodeBase(version), "bin", "npm"),
+		NodePath:    filepath.Join(rootPath, nodeBase(DefaultNodeVersion), "bin", "node"),
+		NpmPath:     filepath.Join(rootPath, nodeBase(DefaultNodeVersion), "bin", "npm"),
 		ModulesPath: filepath.Join(rootPath, "lib", "node_modules"),
-		Version:     version,
-		NodeURL:     nodeURL(version),
+		Version:     DefaultNodeVersion,
+		NodeURL:     nodeURL(DefaultNodeVersion),
 	}
 }
 
