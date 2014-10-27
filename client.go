@@ -35,7 +35,7 @@ func NewClient(rootPath string) *Client {
 	os.Setenv("NODE_PATH", client.ModulesPath)
 	os.Setenv("NPM_CONFIG_GLOBAL", "true")
 	os.Setenv("NPM_CONFIG_PREFIX", client.RootPath)
-	os.Setenv("NPM_CONFIG_SPINNER", "false")
+	os.Setenv("NPM_CONFIG_SPIN", "false")
 
 	return client
 }
