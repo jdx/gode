@@ -1,6 +1,7 @@
 package gode
 
 import (
+	"os"
 	"path/filepath"
 	"runtime"
 )
@@ -23,7 +24,7 @@ type Client struct {
 // NewClient creates a new Client at the specified rootPath
 // The Node installation can then be setup here with client.Setup()
 func NewClient(rootPath string) *Client {
-	return &Client{
+	client := &Client{
 		RootPath:    rootPath,
 		NodePath:    filepath.Join(rootPath, nodeBase(DefaultNodeVersion), "bin", "node"),
 		NpmPath:     filepath.Join(rootPath, nodeBase(DefaultNodeVersion), "bin", "npm"),
@@ -31,6 +32,12 @@ func NewClient(rootPath string) *Client {
 		Version:     DefaultNodeVersion,
 		NodeURL:     nodeURL(DefaultNodeVersion),
 	}
+	os.Setenv("NODE_PATH", client.ModulesPath)
+	os.Setenv("NPM_CONFIG_GLOBAL", "true")
+	os.Setenv("NPM_CONFIG_PREFIX", client.RootPath)
+	os.Setenv("NPM_CONFIG_SPINNER", "false")
+
+	return client
 }
 
 func nodeBase(version string) string {

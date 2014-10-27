@@ -51,11 +51,6 @@ func (c *Client) InstallPackage(name string) error {
 
 func (c *Client) execNpm(args ...string) *exec.Cmd {
 	cmd := exec.Command(c.NpmPath, args...)
-	cmd.Env = []string{
-		"NPM_CONFIG_GLOBAL=true",
-		"NPM_CONFIG_SPIN=false",
-		"NPM_CONFIG_PREFIX=" + c.RootPath,
-	}
 	cmd.Stderr = os.Stderr
 	return cmd
 }
