@@ -30,7 +30,7 @@ func TestWindowsSetup(t *testing.T) {
 	must(err)
 	dir, err := ioutil.TempDir("tmp", "gode")
 	must(err)
-	//defer os.RemoveAll(dir)
+	defer os.RemoveAll(dir)
 	c := NewClient(dir)
 	must(c.setupWindows())
 	if !c.IsSetup() {
