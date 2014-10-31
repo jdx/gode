@@ -32,7 +32,7 @@ func (c *Client) Packages() ([]Package, error) {
 	if err != nil {
 		return nil, err
 	}
-	var packages []Package
+	packages := make([]Package, 0, len(response["dependencies"]))
 	for name, p := range response["dependencies"] {
 		p.Name = name
 		packages = append(packages, p)
@@ -50,7 +50,8 @@ func (c *Client) InstallPackage(name string) error {
 }
 
 func (c *Client) execNpm(args ...string) *exec.Cmd {
-	cmd := exec.Command(c.NpmPath, args...)
+	args = append([]string{c.npmPath()}, args...)
+	cmd := exec.Command(c.nodePath(), args...)
 	cmd.Stderr = os.Stderr
 	return cmd
 }
