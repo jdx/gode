@@ -14,11 +14,6 @@ func extractZip(zipfile, root string) error {
 	}
 	defer archive.Close()
 	for _, f := range archive.File {
-		rc, err := f.Open()
-		if err != nil {
-			return err
-		}
-		defer rc.Close()
 		path := filepath.Join(root, f.Name)
 		switch {
 		case f.FileInfo().IsDir():
@@ -26,16 +21,23 @@ func extractZip(zipfile, root string) error {
 				return err
 			}
 		default:
-			file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.FileInfo().Mode())
-			if err != nil {
-				return err
-			}
-			defer file.Close()
-			_, err = io.Copy(file, rc)
-			if err != nil {
-				return err
-			}
+			extractZipFile(path, f)
 		}
 	}
 	return nil
+}
+
+func extractZipFile(path string, f *zip.File) error {
+	rc, err := f.Open()
+	if err != nil {
+		return err
+	}
+	defer rc.Close()
+	file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.FileInfo().Mode())
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = io.Copy(file, rc)
+	return err
 }
