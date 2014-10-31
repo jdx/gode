@@ -1,7 +1,6 @@
 package gode
 
 import (
-	"os"
 	"os/exec"
 	"path/filepath"
 )
@@ -15,6 +14,5 @@ func (c *Client) RunScript(script string) *exec.Cmd {
 	}
 	cmd := exec.Command(nodePath, "-e", script)
 	cmd.Dir = c.RootPath
-	cmd.Stderr = os.Stderr
 	return cmd
 }
