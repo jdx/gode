@@ -26,7 +26,7 @@ func (c *Client) Setup() error {
 }
 
 func (c *Client) setupUnix() error {
-	err := os.MkdirAll(c.RootPath, 0777)
+	err := os.MkdirAll(filepath.Join(c.RootPath, "node_modules"), 0777)
 	if err != nil {
 		return err
 	}

@@ -1,9 +1,20 @@
 package gode
 
-import "os/exec"
+import (
+	"os"
+	"os/exec"
+	"path/filepath"
+)
 
 // RunScript runs a given script in node
 // Returns an *os/exec.Cmd instance
 func (c *Client) RunScript(script string) *exec.Cmd {
-	return exec.Command(c.nodePath(), "-e", script)
+	nodePath, err := filepath.Rel(c.RootPath, c.nodePath())
+	if err != nil {
+		panic(err)
+	}
+	cmd := exec.Command(nodePath, "-e", script)
+	cmd.Dir = c.RootPath
+	cmd.Stderr = os.Stderr
+	return cmd
 }

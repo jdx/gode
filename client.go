@@ -1,7 +1,6 @@
 package gode
 
 import (
-	"os"
 	"path/filepath"
 	"runtime"
 )
@@ -24,10 +23,6 @@ func NewClient(rootPath string) *Client {
 		RootPath: rootPath,
 		Version:  DefaultNodeVersion,
 	}
-	os.Setenv("NODE_PATH", filepath.Join(rootPath, "lib", "node_modules"))
-	os.Setenv("NPM_CONFIG_GLOBAL", "true")
-	os.Setenv("NPM_CONFIG_PREFIX", client.RootPath)
-	os.Setenv("NPM_CONFIG_SPIN", "false")
 
 	return client
 }
