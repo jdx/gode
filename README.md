@@ -6,3 +6,42 @@ gode
 [![GoDoc](https://img.shields.io/badge/godoc-docs-blue.svg)](https://godoc.org/github.com/dickeyxxx/gode)
 
 gode runs a sandboxed node installation to run node code and install npm packages.
+
+Usage
+-----
+
+Gode will autoinstall Node and npm if it's not in the specified working directory.
+
+To use gode, first give it a working directory. In this case, `~/.gode`
+
+```go
+c := NewClient("~/.gode")
+```
+
+Next, call `c.Setup()` to ensure that gode is setup properly in that working directory.
+
+```go
+err := c.Setup()
+if err != nil {
+    panic(err)
+}
+```
+
+Finally, execute a node script. This returns an `*os/exec.Cmd`:
+
+```go
+output, err := c.RunScript(`console.log("hello world!")`).CombinedOutput()
+if err != nil {
+    panic(err)
+}
+fmt.Println(string(output))
+```
+
+Or install packages:
+
+```go
+err := c.InstallPackage("request")
+if err != nil {
+    panic(err)
+}
+```

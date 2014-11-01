@@ -17,7 +17,7 @@ func TestSetup(t *testing.T) {
 	defer os.RemoveAll(dir)
 	c := NewClient(dir)
 	must(c.Setup())
-	if !c.IsSetup() {
+	if !c.isSetup() {
 		t.Fail()
 	}
 }
@@ -33,7 +33,7 @@ func TestWindowsSetup(t *testing.T) {
 	defer os.RemoveAll(dir)
 	c := NewClient(dir)
 	must(c.setupWindows())
-	if !c.IsSetup() {
+	if !c.isSetup() {
 		t.Fail()
 	}
 }
@@ -45,9 +45,7 @@ func must(err error) {
 }
 
 func setup() *Client {
-	c := NewClient("tmp")
-	if !c.IsSetup() {
-		must(c.Setup())
-	}
+	c := NewClient("~/.gode")
+	must(c.Setup())
 	return c
 }
