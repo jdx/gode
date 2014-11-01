@@ -11,7 +11,7 @@ import (
 )
 
 // IsSetup returns true if node is setup in the client's RootPath directory
-func (c *Client) isSetup() bool {
+func (c *Client) IsSetup() bool {
 	// TODO: better check if it is setup
 	exists, _ := fileExists(c.nodePath())
 	return exists
@@ -19,7 +19,7 @@ func (c *Client) isSetup() bool {
 
 // Setup downloads and sets up node in the client's RootPath directory
 func (c *Client) Setup() error {
-	if c.isSetup() {
+	if c.IsSetup() {
 		return nil
 	}
 	if runtime.GOOS == "windows" {
