@@ -12,10 +12,10 @@ Usage
 
 Gode will autoinstall Node and npm if it's not in the specified working directory.
 
-To use gode, first give it a working directory. In this case, `~/.gode`
+To use gode, first give it a working directory. In this case, `~/.gode`. You would need to already have a homeDir variable for this to work.
 
 ```go
-c := NewClient("~/.gode")
+c := NewClient(filepath.Join(homeDir, ".gode"))
 ```
 
 Next, call `c.Setup()` to ensure that gode is setup properly in that working directory.
