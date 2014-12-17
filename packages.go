@@ -65,7 +65,15 @@ func (c *Client) execNpm(args ...string) (*exec.Cmd, error) {
 	args = append([]string{npmPath}, args...)
 	cmd := exec.Command(nodePath, args...)
 	cmd.Dir = c.RootPath
-	cmd.Env = append(os.Environ(), "NPM_CONFIG_SPIN=false")
+	cmd.Env = c.environ()
 	cmd.Stderr = os.Stderr
 	return cmd, nil
+}
+
+func (c *Client) environ() []string {
+	env := append(os.Environ(), "NPM_CONFIG_SPIN=false")
+	if c.Registry != "" {
+		env = append(env, "NPM_CONFIG_REGISTRY="+c.Registry)
+	}
+	return env
 }

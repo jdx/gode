@@ -14,6 +14,7 @@ const DefaultNodeVersion = "v0.10.32"
 type Client struct {
 	RootPath string
 	Version  string
+	Registry string
 }
 
 // NewClient creates a new Client at the specified rootPath
