@@ -10,6 +10,9 @@ import (
 const DefaultNodeVersion = "0.10.34"
 const DefaultNpmVersion = "2.1.14"
 
+const NodeCDN = "http://d1nhjzpj45o0rc.cloudfront.net"
+const GithubCDN = "http://d2v1cis2kqjysd.cloudfront.net"
+
 // Client is the interface between Node and Go.
 // It also setups up the Node environment if needed.
 type Client struct {
@@ -43,13 +46,13 @@ func (c *Client) nodeBase() string {
 func (c *Client) nodeURL() string {
 	switch {
 	case runtime.GOOS == "windows" && runtime.GOARCH == "386":
-		return "http://d1gvo455cekpjp.cloudfront.net/node/v" + c.NodeVersion + "/node.exe"
+		return NodeCDN + "/v" + c.NodeVersion + "/node.exe"
 	case runtime.GOOS == "windows" && runtime.GOARCH == "amd64":
-		return "http://d1gvo455cekpjp.cloudfront.net/node/v" + c.NodeVersion + "/x64/node.exe"
+		return NodeCDN + "/v" + c.NodeVersion + "/x64/node.exe"
 	case runtime.GOARCH == "386":
-		return "http://d1gvo455cekpjp.cloudfront.net/node/v" + c.NodeVersion + "/" + c.nodeBase() + ".tar.gz"
+		return NodeCDN + "/v" + c.NodeVersion + "/" + c.nodeBase() + ".tar.gz"
 	default:
-		return "http://d1gvo455cekpjp.cloudfront.net/node/v" + c.NodeVersion + "/" + c.nodeBase() + ".tar.gz"
+		return NodeCDN + "/v" + c.NodeVersion + "/" + c.nodeBase() + ".tar.gz"
 	}
 }
 
@@ -63,7 +66,7 @@ func (c *Client) nodePath() string {
 }
 
 func (c *Client) npmURL() string {
-	return "http://d1gvo455cekpjp.cloudfront.net/npm/npm-" + c.NpmVersion + ".zip"
+	return GithubCDN + "/npm/npm/archive/v" + c.NpmVersion + ".zip"
 }
 
 func (c *Client) npmPath() string {
