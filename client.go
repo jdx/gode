@@ -7,22 +7,25 @@ import (
 
 // The Node version to install.
 // Override this by setting client.Version.
-const DefaultNodeVersion = "v0.10.32"
+const DefaultNodeVersion = "0.10.34"
+const DefaultNpmVersion = "2.1.14"
 
 // Client is the interface between Node and Go.
 // It also setups up the Node environment if needed.
 type Client struct {
-	RootPath string
-	Version  string
-	Registry string
+	RootPath    string
+	NodeVersion string
+	NpmVersion  string
+	Registry    string
 }
 
 // NewClient creates a new Client at the specified rootPath
 // The Node installation can then be setup here with client.Setup()
 func NewClient(rootPath string) *Client {
 	client := &Client{
-		RootPath: rootPath,
-		Version:  DefaultNodeVersion,
+		RootPath:    rootPath,
+		NodeVersion: DefaultNodeVersion,
+		NpmVersion:  DefaultNpmVersion,
 	}
 
 	return client
@@ -31,22 +34,22 @@ func NewClient(rootPath string) *Client {
 func (c *Client) nodeBase() string {
 	switch {
 	case runtime.GOARCH == "386":
-		return "node-" + c.Version + "-" + runtime.GOOS + "-x86"
+		return "node-v" + c.NodeVersion + "-" + runtime.GOOS + "-x86"
 	default:
-		return "node-" + c.Version + "-" + runtime.GOOS + "-x64"
+		return "node-v" + c.NodeVersion + "-" + runtime.GOOS + "-x64"
 	}
 }
 
 func (c *Client) nodeURL() string {
 	switch {
 	case runtime.GOOS == "windows" && runtime.GOARCH == "386":
-		return "http://nodejs.org/dist/" + c.Version + "/node.exe"
+		return "http://d1gvo455cekpjp.cloudfront.net/node/v" + c.NodeVersion + "/node.exe"
 	case runtime.GOOS == "windows" && runtime.GOARCH == "amd64":
-		return "http://nodejs.org/dist/" + c.Version + "/x64/node.exe"
+		return "http://d1gvo455cekpjp.cloudfront.net/node/v" + c.NodeVersion + "/x64/node.exe"
 	case runtime.GOARCH == "386":
-		return "http://nodejs.org/dist/" + c.Version + "/" + c.nodeBase() + ".tar.gz"
+		return "http://d1gvo455cekpjp.cloudfront.net/node/v" + c.NodeVersion + "/" + c.nodeBase() + ".tar.gz"
 	default:
-		return "http://nodejs.org/dist/" + c.Version + "/" + c.nodeBase() + ".tar.gz"
+		return "http://d1gvo455cekpjp.cloudfront.net/node/v" + c.NodeVersion + "/" + c.nodeBase() + ".tar.gz"
 	}
 }
 
@@ -57,6 +60,10 @@ func (c *Client) nodePath() string {
 	default:
 		return filepath.Join(c.RootPath, c.nodeBase(), "bin", "node")
 	}
+}
+
+func (c *Client) npmURL() string {
+	return "http://d1gvo455cekpjp.cloudfront.net/npm/npm-" + c.NpmVersion + ".zip"
 }
 
 func (c *Client) npmPath() string {
