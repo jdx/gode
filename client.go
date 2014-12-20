@@ -11,7 +11,6 @@ const DefaultNodeVersion = "0.10.34"
 const DefaultNpmVersion = "2.1.14"
 
 const NodeCDN = "http://d1nhjzpj45o0rc.cloudfront.net"
-const GithubCDN = "http://d2v1cis2kqjysd.cloudfront.net"
 
 // Client is the interface between Node and Go.
 // It also setups up the Node environment if needed.
@@ -66,7 +65,7 @@ func (c *Client) nodePath() string {
 }
 
 func (c *Client) npmURL() string {
-	return GithubCDN + "/npm/npm/archive/v" + c.NpmVersion + ".zip"
+	return "http://github.com/npm/npm/archive/v" + c.NpmVersion + ".zip"
 }
 
 func (c *Client) npmPath() string {
