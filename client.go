@@ -8,8 +8,13 @@ import (
 // The Node version to install.
 // Override this by setting client.Version.
 const DefaultNodeVersion = "0.10.34"
+
+// The NPM version to install.
+// Override this by setting client.Version.
 const DefaultNpmVersion = "2.1.14"
 
+// This is a Cloudfront CDN that mirrors http://nodejs.org/dist
+// It is much faster.
 const NodeCDN = "http://d1nhjzpj45o0rc.cloudfront.net"
 
 // Client is the interface between Node and Go.
