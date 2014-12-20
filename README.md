@@ -5,6 +5,8 @@ gode
 [![Code Coverage](http://gocover.io/_badge/github.com/dickeyxxx/gode)](http://gocover.io/github.com/dickeyxxx/gode)
 [![GoDoc](https://godoc.org/github.com/dickeyxxx/gode?status.svg)](https://godoc.org/github.com/dickeyxxx/gode)
 
+[Changelog](CHANGELOG)
+
 gode runs a sandboxed node installation to run node code and install npm packages.
 
 Usage
