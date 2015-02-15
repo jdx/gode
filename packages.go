@@ -72,6 +72,9 @@ func (c *Client) UpdatePackages() error {
 }
 
 func (c *Client) execNpm(args ...string) (*exec.Cmd, error) {
+	if err := os.MkdirAll(filepath.Join(c.RootPath, "node_modules"), 0755); err != nil {
+		return nil, err
+	}
 	nodePath, err := filepath.Rel(c.RootPath, c.nodePath())
 	if err != nil {
 		return nil, err
