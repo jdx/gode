@@ -20,7 +20,7 @@ func (c *Client) RunScript(script string) *exec.Cmd {
 }
 
 // DebugScript is the same as RunScript except it launches with node-inspector
-func (c *Client) DebugScript(script string) (*exec.Cmd, error) {
+func (c *Client) DebugScript(script string) *exec.Cmd {
 	scriptPath := filepath.Join(c.RootPath, "debug.js")
 	if err := ioutil.WriteFile(scriptPath, []byte(script), 0644); err != nil {
 		panic(err)
@@ -33,5 +33,5 @@ func (c *Client) DebugScript(script string) (*exec.Cmd, error) {
 	}
 	cmd := exec.Command(path, "debug.js")
 	cmd.Dir = c.RootPath
-	return cmd, nil
+	return cmd
 }
