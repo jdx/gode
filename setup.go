@@ -44,7 +44,9 @@ func (c *Client) setupUnix() error {
 	}
 	tmpDir := c.tmpDir("node")
 	extractTar(tar.NewReader(uncompressed), tmpDir)
-	err = os.Rename(filepath.Join(tmpDir, c.NodeBase()), filepath.Join(c.RootPath, c.NodeBase()))
+	newDir := filepath.Join(c.RootPath, c.NodeBase())
+	os.RemoveAll(newDir)
+	err = os.Rename(filepath.Join(tmpDir, c.NodeBase()), newDir)
 	if err != nil {
 		return err
 	}
