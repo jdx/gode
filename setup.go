@@ -85,6 +85,7 @@ func (c *Client) downloadFile(path, url string) error {
 	if err != nil {
 		return err
 	}
+	os.Remove(path)
 	err = os.Rename(tmp, path)
 	if err != nil {
 		return err
